@@ -60,7 +60,7 @@ public class SpawnCommand {
 		WorldProperties prop = world.getLevelProperties();
         BlockPos pos = new BlockPos(prop.getSpawnX(), prop.getSpawnY(), prop.getSpawnZ());
         if (!world.getWorldBorder().contains(pos)) {
-            pos = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, new BlockPos(world.getWorldBorder().getCenterX(), 0.0, world.getWorldBorder().getCenterZ()));
+            pos = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, new BlockPos((int) world.getWorldBorder().getCenterX(), (int) 0.0, (int) world.getWorldBorder().getCenterZ()));
         }
         return pos;
     }

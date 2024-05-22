@@ -65,9 +65,9 @@ remapJar {
     classifier null
 	
 	// Add a nested mod jar to this task, the include configuration should be used for maven libraries and mods.
-	nestedJars.from file("libs/text-backwards-support-lib-0.1.jar")
-	nestedJars.from file("libs/fantasy-0.4.4+1.18.2.jar")
-	nestedJars.from file("libs/fantasy-0.4.6+1.19.2.jar")
+	//nestedJars.from file("libs/text-backwards-support-lib-0.1.jar")
+	//nestedJars.from file("libs/fantasy-0.4.4+1.18.2.jar")
+	nestedJars.from file("libs/fantasy-0.4.7+1.19.2.jar")
 
 	addNestedDependencies = true
 }

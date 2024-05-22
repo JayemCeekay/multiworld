@@ -19,13 +19,12 @@ package dimapi;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.server.command.TeleportCommand;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.TeleportTarget;
 
 public final class FabricDimensionInternals {
-	/**
-	 * The target passed to the last call to {@link FabricDimensions#teleport(Entity, ServerWorld, TeleportTarget)}.
-	 */
+
 	private static TeleportTarget currentTarget;
 
 	private FabricDimensionInternals() {
@@ -41,8 +40,8 @@ public final class FabricDimensionInternals {
 
 	@SuppressWarnings("unchecked")
 	public static <E extends Entity> E changeDimension(E teleported, ServerWorld dimension, TeleportTarget target) {
-		Preconditions.checkArgument(!teleported.world.isClient, "Entities can only be teleported on the server side");
-		Preconditions.checkArgument(Thread.currentThread() == ((ServerWorld) teleported.world).getServer().getThread(), "Entities must be teleported from the main server thread");
+		Preconditions.checkArgument(!teleported.getWorld().isClient, "Entities can only be teleported on the server side");
+		Preconditions.checkArgument(Thread.currentThread() == ((ServerWorld) teleported.getWorld()).getServer().getThread(), "Entities must be teleported from the main server thread");
 
 		try {
 			currentTarget = target;
@@ -51,4 +50,5 @@ public final class FabricDimensionInternals {
 			currentTarget = null;
 		}
 	}
+
 }

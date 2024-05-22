@@ -14,19 +14,18 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
-//import xyz.nucleoid.fantasy.Fantasy;
-//import xyz.nucleoid.fantasy.RuntimeWorldConfig;
-//import xyz.nucleoid.fantasy.RuntimeWorldHandle;
 import me.isaiah.multiworld.MultiworldMod;
 
 import static me.isaiah.multiworld.MultiworldMod.text;
 import static me.isaiah.multiworld.MultiworldMod.text_plain;
+
 import net.minecraft.server.world.ServerWorld;
 
 
 import java.io.File;
+
 import me.isaiah.multiworld.config.*;
+import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
 
 public class CreateCommand {
 
@@ -44,7 +43,7 @@ public class CreateCommand {
 
         ChunkGenerator gen = null;
         if (args[2].contains("NORMAL")) {
-            gen = mc.getWorld(World.OVERWORLD).getChunkManager().getChunkGenerator(); // .withSeed(seed);
+            gen = mc.getWorld(World.OVERWORLD).getChunkManager().getChunkGenerator();
             dim = Util.OVERWORLD_REGISTRY_KEY;
         }
 
@@ -52,41 +51,30 @@ public class CreateCommand {
             gen = mc.getWorld(World.NETHER).getChunkManager().getChunkGenerator();
             dim = Util.THE_NETHER_REGISTRY_KEY;
         }
-        
+
         if (args[2].contains("END")) {
-            gen = mc.getWorld(World.END).getChunkManager().getChunkGenerator(); // .withSeed(seed);
+            gen = mc.getWorld(World.END).getChunkManager().getChunkGenerator();
             dim = Util.THE_END_REGISTRY_KEY;
         }
-        
+
         String arg1 = args[1];
         if (arg1.indexOf(':') == -1) arg1 = "multiworld:" + arg1;
-        
+
         ServerWorld world = MultiworldMod.create_world(arg1, dim, gen, Difficulty.NORMAL, seed);
-		make_config(world, args[2], seed);
+        make_config(world, args[2], seed);
 
-        /*RuntimeWorldConfig config = new RuntimeWorldConfig()
-                .setDimensionType(dim)
-                .setGenerator(gen)
-                .setDifficulty(Difficulty.NORMAL)
-                ;*/
-
-        // TODO
-        //Fantasy fantasy = Fantasy.get(mc);
-        //RuntimeWorldHandle worldHandle = fantasy.getOrOpenPersistentWorld(new Identifier(arg1), config);
-        //worldHandle.asWorld();
-        
         plr.sendMessage(text("Created world with id: " + args[1], Formatting.GREEN), false);
-        
+
         return 1;
     }
-	
-	public static void reinit_world_from_config(MinecraftServer mc, String id) {
-		File config_dir = new File("config");
+
+    public static void reinit_world_from_config(MinecraftServer mc, String id) {
+        File config_dir = new File("config");
         config_dir.mkdirs();
-		
-		String[] spl = id.split(":");
-        
-        File cf = new File(config_dir, "multiworld"); 
+
+        String[] spl = id.split(":");
+
+        File cf = new File(config_dir, "multiworld");
         cf.mkdirs();
 
         File worlds = new File(cf, "worlds");
@@ -134,13 +122,13 @@ public class CreateCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-	}
-	
-	public static void make_config(ServerWorld w, String dim, long seed) {
+    }
+
+    public static void make_config(ServerWorld w, String dim, long seed) {
         File config_dir = new File("config");
         config_dir.mkdirs();
-        
-        File cf = new File(config_dir, "multiworld"); 
+
+        File cf = new File(config_dir, "multiworld");
         cf.mkdirs();
 
         File worlds = new File(cf, "worlds");
@@ -153,15 +141,15 @@ public class CreateCommand {
         File wc = new File(namespace, id.getPath() + ".yml");
         FileConfiguration config;
         try {
-			if (!wc.exists()) {
-				wc.createNewFile();
-			}
+            if (!wc.exists()) {
+                wc.createNewFile();
+            }
             config = new FileConfiguration(wc);
-			config.set("namespace", id.getNamespace());
-			config.set("path", id.getPath());
-			config.set("environment", dim);
-			config.set("seed", seed);
-			config.save();
+            config.set("namespace", id.getNamespace());
+            config.set("path", id.getPath());
+            config.set("environment", dim);
+            config.set("seed", seed);
+            config.save();
         } catch (Exception e) {
             e.printStackTrace();
         }

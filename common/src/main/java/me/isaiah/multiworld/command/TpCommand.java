@@ -1,8 +1,7 @@
 package me.isaiah.multiworld.command;
 
-import java.util.HashMap;
-
 import dimapi.FabricDimensionInternals;
+import me.isaiah.multiworld.config.FileConfiguration;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -10,12 +9,14 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.TeleportTarget;
-import static me.isaiah.multiworld.MultiworldMod.text;
-import net.minecraft.world.WorldProperties;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.TeleportTarget;
+import net.minecraft.world.WorldProperties;
+
 import java.io.File;
-import me.isaiah.multiworld.config.*;
+import java.util.HashMap;
+
+import static me.isaiah.multiworld.MultiworldMod.text;
 
 public class TpCommand {
 
@@ -25,7 +26,7 @@ public class TpCommand {
             ServerWorld world = mc.getWorld(r);
             worlds.put(r.getValue().toString(), world);
         });
-        
+
         String arg1 = args[1];
         if (arg1.indexOf(':') == -1) arg1 = "multiworld:" + arg1;
 
@@ -93,14 +94,14 @@ public class TpCommand {
         }
         return pos;
     }
-	
-	public static String read_env_from_config(String id) {
+
+    public static String read_env_from_config(String id) {
         File config_dir = new File("config");
         config_dir.mkdirs();
-		
-		String[] spl = id.split(":");
-        
-        File cf = new File(config_dir, "multiworld"); 
+
+        String[] spl = id.split(":");
+
+        File cf = new File(config_dir, "multiworld");
         cf.mkdirs();
 
         File worlds = new File(cf, "worlds");
@@ -112,16 +113,16 @@ public class TpCommand {
         File wc = new File(namespace, spl[1] + ".yml");
         FileConfiguration config;
         try {
-			if (!wc.exists()) {
-				wc.createNewFile();
-			}
+            if (!wc.exists()) {
+                wc.createNewFile();
+            }
             config = new FileConfiguration(wc);
-			String env = config.getString("environment");
-			return env;
+            String env = config.getString("environment");
+            return env;
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return "NORMAL";
+        return "NORMAL";
     }
 
 }
