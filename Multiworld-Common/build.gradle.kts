@@ -30,6 +30,9 @@ repositories {
 	  maven { url = uri("https://maven.nucleoid.xyz/") }
 	  maven { url = uri("https://cursemaven.com/") }
 	  maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
+	flatDir {
+		dirs("libs")
+	}
 }
 
 tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
@@ -49,7 +52,7 @@ dependencies {
 	modImplementation("curse.maven:cyber-permissions-407695:4640544")
 	modImplementation("me.lucko:fabric-permissions-api:0.2-SNAPSHOT")
 	modImplementation("net.fabricmc.fabric-api:fabric-api-deprecated:0.86.1+1.19.4")
-	
+	modCompileOnly("name:fabric-4.0-SNAPSHOT")
 	setOf(
 		"fabric-api-base",
 		//"fabric-command-api-v1",

@@ -61,7 +61,7 @@ public class MultiworldMod {
 
     // On mod init
     public static void init() {
-        System.out.println(" Multiworld init");
+
     }
     
     public static Identifier new_id(String id) {

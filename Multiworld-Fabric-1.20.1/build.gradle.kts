@@ -17,6 +17,13 @@ base {
     group = "me.isaiah.mods"
 }
 
+repositories {
+    flatDir {
+        dirs("libs")
+    }
+
+}
+
 dependencies {
 
 		annotationProcessor("com.pkware.jabel:jabel-javac-plugin:1.0.1-1")
@@ -31,12 +38,13 @@ dependencies {
     minecraft("com.mojang:minecraft:1.20.1") 
     mappings("net.fabricmc:yarn:1.20.1+build.10")
     modImplementation("net.fabricmc:fabric-loader:0.15.11")
-	
+	modImplementation(project(":Multiworld-Common"))
 	include("xyz.nucleoid:fantasy:0.4.11+1.20-rc1")
 	modImplementation("xyz.nucleoid:fantasy:0.4.11+1.20-rc1")
 	modImplementation("curse.maven:cyber-permissions-407695:4640544")
 	modImplementation("me.lucko:fabric-permissions-api:0.2-SNAPSHOT")
 	modImplementation("net.fabricmc.fabric-api:fabric-api-deprecated:0.83.0+1.20")
+    modCompileOnly("name:fabric-4.0-SNAPSHOT")
 	
 	setOf(
 		"fabric-api-base",

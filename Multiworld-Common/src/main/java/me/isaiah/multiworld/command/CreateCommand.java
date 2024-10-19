@@ -2,6 +2,13 @@ package me.isaiah.multiworld.command;
 
 import java.util.Random;
 
+import com.google.inject.Key;
+import com.plotsquared.core.generator.IndependentPlotGenerator;
+import com.plotsquared.core.inject.annotations.DefaultGenerator;
+import com.plotsquared.fabric.FabricPlatform;
+import com.plotsquared.fabric.generator.FabricPlotGenerator;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Formatting;
@@ -47,7 +54,6 @@ public class CreateCommand {
         }
         
         if (null == dim) {
-        	System.out.println("Null dimenstion ");
         	dim = Util.OVERWORLD_ID;
         }
         
@@ -110,6 +116,11 @@ public class CreateCommand {
 				gen = mc.getWorld(World.END).getChunkManager().getChunkGenerator(); // .withSeed(seed);
 				dim = Util.THE_END_ID;
 			}
+
+			if(env.contains("OTHER")) {
+				gen = (ChunkGenerator) FabricPlatform.PLATFORM.wrapPlotGenerator(config.getString("path"), FabricPlatform.PLATFORM.defaultGenerator());
+				dim = Util.OVERWORLD_ID;
+			}
 			
 			Difficulty d = Difficulty.NORMAL;
 			
@@ -123,7 +134,7 @@ public class CreateCommand {
 				if (di.equalsIgnoreCase("NORMAL"))   { d = Difficulty.NORMAL; }
 				if (di.equalsIgnoreCase("PEACEFUL")) { d = Difficulty.PEACEFUL; }
 			}
-			
+
 			ServerWorld world = MultiworldMod.create_world(id, dim, gen, d, seed);
 			
 			
@@ -159,7 +170,7 @@ public class CreateCommand {
 	}
 	
 	public static void make_config(ServerWorld w, String dim, long seed) {
-        File config_dir = new File("config");
+        File config_dir = new File(FabricLoader.getInstance().getConfigDirectory().toString());
         config_dir.mkdirs();
         
         File cf = new File(config_dir, "multiworld"); 
